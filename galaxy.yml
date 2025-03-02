@@ -1,16 +1,16 @@
 ---
 authors:
-  - Ansible Network Community (ansible-network)
+  - evajust
 dependencies:
   "ansible.utils": ">=3.0.0"
 license_file: LICENSE
-name: netcommon
-namespace: ansible
+name: kbd_interactive
+namespace: evajust
 description:
-  Ansible Collection with common content to help automate the management
-  of network, security, and cloud devices.
+  Collection to handle keyboard interactive auth with paramiko for network
+  devices.
 readme: README.md
-repository: https://github.com/ansible-collections/ansible.netcommon
-issues: https://github.com/ansible-collections/ansible.netcommon/issues
-tags: [networking, security, cloud, network_cli, netconf, httpapi, grpc]
-version: 7.1.0
+repository: https://github.com/evajust/kbd_interactive
+issues: https://github.com/evajust/kbd_interactive/issues
+tags: [networking, kbd_interactive, keyboard]
+version: 0.0.1
