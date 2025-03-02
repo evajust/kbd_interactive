@@ -1,23 +1,22 @@
-
-
-# Ansible Network Collection for Common Code (netcommon)
-[![CI](https://zuul-ci.org/gated.svg)](https://ansible.softwarefactory-project.io/zuul/builds?project=ansible-collections%2Fansible.netcommon) <!--[![Codecov](https://img.shields.io/codecov/c/github/ansible-collections/ansible.netcommon)](https://codecov.io/gh/ansible-collections/ansible.netcommon)-->
+# Ansible Network Collection for Keyboard Interactive Auth
+<!-- Uncomment these when moved over to my own pipeline
+[![CI](https://zuul-ci.org/gated.svg)](https://ansible.softwarefactory-project.io/zuul/builds?project=ansible-collections%2Fansible.netcommon)
 [![Codecov](https://codecov.io/gh/ansible-collections/ansible.netcommon/branch/main/graph/badge.svg)](https://codecov.io/gh/ansible-collections/ansible.netcommon)
 [![CI](https://github.com/ansible-collections/ansible.netcommon/actions/workflows/tests.yml/badge.svg?branch=main&event=schedule)](https://github.com/ansible-collections/ansible.netcommon/actions/workflows/tests.yml)
+-->
 
-The Ansible ``ansible.netcommon`` collection includes common content to help automate the management of network, security, and cloud devices.
-This includes connection plugins, such as ``network_cli``, ``httpapi``, and ``netconf``.
+The ``evajust.kbd_interactive`` collection is a fork of ``ansible.netcommon`` that handles keyboard interactive authentication with ``paramiko``.
+This is to handle connections to network devices that only allow keyboard interactive auth. This collection also communicates with network devices via a pseudo terminal. This is because the devices that caused me to create this collection did not allow ssh command execution.
 
 ## Support
 
-As a Red Hat Ansible [Certified Content](https://catalog.redhat.com/software/search?target_platforms=Red%20Hat%20Ansible%20Automation%20Platform), this collection is entitled to [support](https://access.redhat.com/support/) through [Ansible Automation Platform](https://www.redhat.com/en/technologies/management/ansible) (AAP).
+This collection is made by me (evajust) for a specific use case. I will be supporting it for my use case, but if you have any issues, I'm open to attempt to fix it if you open an Issue.
 
-If a support case cannot be opened with Red Hat and the collection has been obtained either from [Galaxy](https://galaxy.ansible.com/ui/) or [GitHub](https://github.com/ansible-collections/ansible.netcommon), there is community support available at no charge.
+I'll also review any PRs that are opened against this repo.
 
-You can join us on [#network:ansible.com](https://matrix.to/#/#network:ansible.com) room or the [Ansible Forum Network Working Group](https://forum.ansible.com/g/network-wg).
+The easiest way to contact me is through Discord: [kbd_interactive](https://discord.gg/U7u9qYpNph)
 
-For more information you can check the communication section below.
-
+<!--
 ## Communication
 
 * Join the Ansible forum:
@@ -31,7 +30,6 @@ For more information you can check the communication section below.
 
 For more information about communication, see the [Ansible communication guide](https://docs.ansible.com/ansible/devel/community/communication.html).
 
-<!--start requires_ansible-->
 ## Ansible version compatibility
 
 This collection has been tested against following Ansible versions: **>=2.15.0**.
@@ -41,11 +39,9 @@ fully qualified collection name (for example, `cisco.ios.ios`).
 Plugins and modules within a collection may be tested with only specific Ansible versions.
 A collection may contain metadata that identifies these versions.
 PEP440 is the schema used to describe the versions of Ansible.
-<!--end requires_ansible-->
 
 ## Included content
 
-<!--start collection content-->
 ### Become plugins
 Name | Description
 --- | ---
@@ -109,22 +105,23 @@ Name | Description
 [ansible.netcommon.restconf_get](https://github.com/ansible-collections/ansible.netcommon/blob/main/docs/ansible.netcommon.restconf_get_module.rst)|Fetch configuration/state data from RESTCONF enabled devices.
 [ansible.netcommon.telnet](https://github.com/ansible-collections/ansible.netcommon/blob/main/docs/ansible.netcommon.telnet_module.rst)|Executes a low-down and dirty telnet command
 
-<!--end collection content-->
-
+-->
 
 ## Installing this collection
 
-You can install the ``ansible.netcommon`` collection with the Ansible Galaxy CLI:
+You can install the ``evajust.kbd_interactive`` collection with the Ansible Galaxy CLI:
 
-    ansible-galaxy collection install ansible.netcommon
+    ansible-galaxy collection install evajust.kbd_interactive
 
 You can also include it in a `requirements.yml` file and install it with `ansible-galaxy collection install -r requirements.yml`, using the format:
 
 ```yaml
 ---
 collections:
-  - name: ansible.netcommon
+  - name: evajust.kbd_interactive
 ```
+
+<!--
 ## Using this collection
 
 The most common use case for this collection is to include it as a dependency in a network device-specific collection. Use the Fully Qualified Collection Name (FQCN) when referring to content in this collection (for example, `ansible.netcommon.network_cli`).
@@ -153,12 +150,8 @@ Please read and familiarize yourself with this document.
 
 
 ## Release notes
-<!--Add a link to a changelog.md file or an external docsite to cover this information. -->
+
 Release notes are available [here](https://github.com/ansible-collections/ansible.netcommon/blob/main/CHANGELOG.rst)
-
-## Roadmap
-
-<!-- Optional. Include the roadmap for this collection, and the proposed release/versioning strategy so users can anticipate the upgrade/update cycle. -->
 
 ## More information
 
@@ -174,3 +167,4 @@ Release notes are available [here](https://github.com/ansible-collections/ansibl
 GNU General Public License v3.0 or later.
 
 See [LICENSE](https://www.gnu.org/licenses/gpl-3.0.txt) to see the full text.
+-->

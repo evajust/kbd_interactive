@@ -260,7 +260,7 @@ options:
       - I(paramiko) will instead use the paramiko package to manage the SSH connection.
       - I(auto) will use ansible-pylibssh if that package is installed, otherwise will fallback to paramiko.
     default: auto
-    choices: ["libssh", "paramiko", "auto"]
+    choices: ["kbd_interactive", "libssh", "paramiko", "auto"]
     type: string
     env:
         - name: ANSIBLE_NETWORK_CLI_SSH_TYPE
@@ -354,7 +354,7 @@ class AnsibleCmdRespRecv(Exception):
 class Connection(NetworkConnectionBase):
     """CLI (shell) SSH connections on Paramiko"""
 
-    transport = "ansible.netcommon.network_cli"
+    transport = "evajust.kbd_interactive.network_cli"
     has_pipelining = True
 
     def __init__(self, play_context, new_stdin, *args, **kwargs):
@@ -437,10 +437,10 @@ class Connection(NetworkConnectionBase):
                     self._ssh_type = "paramiko"
                 self.queue_message("vvvv", "ssh type is now set to %s" % self._ssh_type)
 
-        if self._ssh_type not in ["paramiko", "libssh"]:
+        if self._ssh_type not in ["paramiko", "libssh", "kbd_interactive"]:
             raise AnsibleConnectionFailure(
                 "Invalid value '%s' set for ssh_type option."
-                " Expected value is either 'libssh' or 'paramiko'" % self._ssh_type
+                " Expected value is either 'libssh', 'paramiko', or 'kbd_interactive'" % self._ssh_type
             )
 
         return self._ssh_type
@@ -453,6 +453,8 @@ class Connection(NetworkConnectionBase):
             elif self.ssh_type == "paramiko":
                 # NOTE: This MUST be paramiko or things will break
                 connection_plugin = "paramiko"
+            elif self.ssh_type == "kbd_interactive":
+                connection_plugin = "evajust.kbd_interactive.kbd_interactive"
             else:
                 raise AnsibleConnectionFailure(
                     "Invalid value '%s' set for ssh_type option."
@@ -647,9 +649,13 @@ class Connection(NetworkConnectionBase):
             self.queue_message("vvvv", "ssh connection done, setting terminal")
             self._connected = True
 
-            self._ssh_shell = ssh.ssh.invoke_shell()
-            if self.ssh_type == "paramiko":
-                self._ssh_shell.settimeout(command_timeout)
+            if self.ssh_type == "kbd_interactive":
+                self._ssh_shell = ssh.ssh
+                self._ssh_shell.invoke_shell()
+            else:
+                self._ssh_shell = ssh.ssh.invoke_shell()
+                if self.ssh_type == "paramiko":
+                    self._ssh_shell.settimeout(command_timeout)
 
             self.queue_message(
                 "vvvv",
@@ -952,7 +958,10 @@ class Connection(NetworkConnectionBase):
                 check_all,
                 strip_prompt,
             )
-        elif self.ssh_type == "paramiko":
+        elif (
+            self.ssh_type == "paramiko" or
+            self.ssh_type == "kbd_interactive"
+        ):
             response = self.receive_paramiko(
                 command,
                 prompts,
