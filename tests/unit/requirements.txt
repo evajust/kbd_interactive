@@ -14,3 +14,4 @@ genie >= 21.4 ; python_version >= '3.6'
 textfsm
 ttp
 xmltodict
+passlib
